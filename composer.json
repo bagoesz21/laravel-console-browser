@@ -1,0 +1,54 @@
+{
+    "name": "bagoesz21/laravel-console-browser",
+    "description": "Browser console for Laravel Framework.",
+    "keywords": [
+        "laravel",
+        "browser",
+        "console"
+    ],
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/bagoesz21/laravel-console-browser/issues",
+        "source": "https://github.com/bagoesz21/laravel-console-browser"
+    },
+    "authors": [
+        {
+            "name": "BEEP",
+            "email": "bgs.beep21@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.3",
+        "illuminate/support": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Bagoesz21\\ConsoleBrowser\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Bagoesz21\\ConsoleBrowser\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Bagoesz21\\ConsoleBrowser\\ConsoleBrowserServiceProvider"
+            ],
+            "aliases": {
+                "ConsoleBrowser": "Bagoesz21\\ConsoleBrowser\\Facade"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require-dev": {
+        "orchestra/testbench": "^6.2"
+    },
+    "scripts": {
+        "check-style": "phpcs -p --standard=PSR12 config/ src/ tests/",
+        "fix-style": "phpcbf -p --standard=PSR12 config/ src/ tests/",
+        "test": "phpunit"
+    }
+}
