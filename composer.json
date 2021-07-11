@@ -2,11 +2,15 @@
     "name": "bagoesz21/laravel-console-browser",
     "description": "Browser console for Laravel Framework.",
     "keywords": [
+        "php",
         "laravel",
+        "lumen",
         "browser",
-        "console"
+        "console",
+        "console browser"
     ],
     "license": "MIT",
+    "type": "library",
     "support": {
         "issues": "https://github.com/bagoesz21/laravel-console-browser/issues",
         "source": "https://github.com/bagoesz21/laravel-console-browser"
@@ -14,11 +18,13 @@
     "authors": [
         {
             "name": "BEEP",
-            "email": "bgs.beep21@gmail.com"
+            "email": "bgs.beep21@gmail.com",
+            "homepage": "https://github.com/bagoesz21",
+            "role": "Developer"
         }
     ],
     "require": {
-        "php": ">=7.3",
+        "php": "^7.3|^8.0",
         "illuminate/support": "^8.0"
     },
     "autoload": {

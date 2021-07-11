@@ -134,13 +134,11 @@ class Console
             ]);
 
         } catch (\Throwable $e) {
-            //dd($e->getMessage());
-            //dd($e);
 
             static::addProfile([
                 'time'        => round(($console_execute_end - $console_execute_start) * 1000),
-                'output'      => $e->getMEssage(),
-                'output_size' => strlen($e->getMEssage())
+                'output'      => $e->getMessage(),
+                'output_size' => strlen($e->getMessage())
             ]);
         }
 
