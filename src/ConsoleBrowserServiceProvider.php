@@ -50,7 +50,7 @@ class ConsoleBrowserServiceProvider extends ServiceProvider
         ], 'public');
 
         $this->publishes([
-            __DIR__.'/../resources/lang' => resource_path('lang/vendor/console-browser'),
+            __DIR__.'/../resources/lang' => $this->app->langPath('vendor/console-browser'),
         ], 'lang');
 
         $this->loadViewsFrom(
