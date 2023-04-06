@@ -137,7 +137,7 @@ class Console
 
             static::addProfile([
                 'time'        => round(($console_execute_end - $console_execute_start) * 1000),
-                'output'      => $e->getMessage(),
+                'output'      => self::limitExceptionTrace($e),
                 'output_size' => strlen($e->getMessage())
             ]);
         }
@@ -226,4 +226,10 @@ class Console
 			return static::$profile['error'];
 		}
 	}
+
+    private static function limitExceptionTrace(\Throwable $exception, $lines = 5) {
+        $exception = $exception->getTraceAsString();
+        $trace = array_slice(explode("\n", $exception), 0, $lines);
+        return implode("\n", $trace);
+    }
 }
