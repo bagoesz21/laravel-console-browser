@@ -1,8 +1,7 @@
 <?php
-
 namespace Bagoesz21\ConsoleBrowser;
 
-use Throwable;
+use Exception;
 use Monolog\Handler\BrowserConsoleHandler;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -17,7 +16,7 @@ class Handler extends ExceptionHandler {
      * @param  \Exception  $e
      * @return \Illuminate\Http\Response
      */
-    public function render($request, Throwable $e)
+    public function render($request, Exception $e)
     {
         Console::addProfile('error', array(
             'type'    => $e->getCode(),

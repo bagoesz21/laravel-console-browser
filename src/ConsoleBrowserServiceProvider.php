@@ -1,36 +1,21 @@
 <?php
-
 namespace Bagoesz21\ConsoleBrowser;
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 
-class ConsoleBrowserServiceProvider extends ServiceProvider
-{
+
+class ConsoleBrowserServiceProvider extends ServiceProvider {
+
     /**
-     * Register services.
+     * Indicates if loading of the provider is deferred.
      *
-     * @return void
+     * @var bool
      */
-    public function register()
-    {
-        if ($this->app['request']->is('console') and $this->app['request']->getMethod() == 'POST') {
-            $this->app->bind(
-                Illuminate\Contracts\Debug\ExceptionHandler::class,
-                Bagoesz21\ConsoleBrowser\Handler::class
-            );
-        }
-
-        $this->mergeConfigFrom(
-            __DIR__.'/../config/config.php', 'console-browser'
-        );
-
-        // Attach Console events
-        Console::attach();
-    }
+    protected $defer = false;
 
     /**
-     * Bootstrap services.
+     * Bootstrap the application events.
      *
      * @return void
      */
@@ -39,28 +24,62 @@ class ConsoleBrowserServiceProvider extends ServiceProvider
         $middlewareMethod = method_exists($router, 'aliasMiddleware') ? 'aliasMiddleware' : 'middleware';
         $router->$middlewareMethod('console_protect', Http\Middlewares\Console::class);
 
-        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'console-browser');
-
+        // Publish config.
         $this->publishes([
             __DIR__.'/../config/config.php' => config_path('console-browser.php'),
-        ], 'config');
-
-        $this->publishes([
-            __DIR__.'/../resources/assets' => public_path('vendor/console-browser'),
+            __DIR__.'/../resources/assets' => base_path('public/vendor/console-browser'),
         ], 'public');
+    }
 
-        $this->publishes([
-            __DIR__.'/../resources/lang' => $this->app->langPath('vendor/console-browser'),
-        ], 'lang');
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        if ($this->app['request']->is('console') and $this->app['request']->getMethod() == 'POST') {
+            $this->app->bind(
+                'Illuminate\Contracts\Debug\ExceptionHandler',
+                'Bagoesz21\ConsoleBrowser\Handler'
+            );
+        }
+
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/config.php', 'console-browser'
+        );
 
         $this->loadViewsFrom(
             __DIR__.'/../resources/views', 'console-browser'
         );
 
         $this->publishes([
-            __DIR__.'/../resources/views' => resource_path('views/vendor/console-browser'),
+            __DIR__.'/../resources/views' => base_path('resources/views/vendor/console-browser'),
         ], 'view');
 
-        $this->loadRoutesFrom(__DIR__.'/routes.php');
+        if (! $this->app->routesAreCached()) {
+            $group = [
+                'namespace' => 'Bagoesz21\ConsoleBrowser',
+                'middleware' => $this->app['config']['console']['middleware']
+            ];
+
+            \Route::group($group, function ($router) {
+                require __DIR__ . '/routes.php';
+            });
+        }
+
+        // Attach Console events
+        Console::attach();
     }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return array();
+    }
+
 }
