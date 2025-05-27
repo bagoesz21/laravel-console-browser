@@ -60,7 +60,7 @@ class ConsoleBrowserServiceProvider extends ServiceProvider {
         if (! $this->app->routesAreCached()) {
             $group = [
                 'namespace' => 'Bagoesz21\ConsoleBrowser',
-                'middleware' => $this->app['config']['console']['middleware']
+                'middleware' => $this->app['config']['console-browser']['middleware']
             ];
 
             \Route::group($group, function ($router) {
